@@ -27,7 +27,7 @@ export default class sortable_listview extends Component {
   constructor(props) {
     super(props);
   }
-  
+
   render() {
     return (
       <View style={styles.container}>
@@ -50,7 +50,7 @@ export default class sortable_listview extends Component {
     return (
       <RowComponent
         {...rowData}
-        onPress={() => this.handleRowPress(rowData)}/>
+      />
     )
   }
 }
