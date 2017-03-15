@@ -11,32 +11,54 @@ import {
   Text,
   View
 } from 'react-native';
+import SortableListView from 'react-native-sortable-listview';
+import RowComponent from './RowComponent';
+
+let data = {
+  1: {id:1, text: 'FEED 1'},
+  2: {id:2, text: 'FEED 2'},
+  3: {id:3, text: 'FEED 3'},
+  4: {id:4, text: 'FEED 4'},
+  5: {id:5, text: 'FEED 5'},
+}
+let order = Object.keys(data); //Array of keys
 
 export default class sortable_listview extends Component {
+  constructor(props) {
+    super(props);
+  }
+  
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <SortableListView
+            style={{flex: 1, marginTop:30}}
+            data={data}
+            order={order}
+            disableSorting={true}
+            onRowMoved={e => {
+              order.splice(e.to, 0, order.splice(e.from, 1)[0]);
+              this.forceUpdate();
+            }}
+            renderRow={this.renderRow.bind(this)}
+        />
       </View>
     );
+  }
+
+  renderRow(rowData) {
+    return (
+      <RowComponent
+        {...rowData}
+        onPress={() => this.handleRowPress(rowData)}/>
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'green',
   },
   welcome: {
     fontSize: 20,
